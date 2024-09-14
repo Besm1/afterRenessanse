@@ -1,13 +1,16 @@
-import os
+from os import chdir, getcwd, walk, path
+from time import strftime, localtime
 
 directory = '.'
-abs_path = os.path.abspath(directory)
-print(os.path.join(abs_path, 'dirrrr'))
-for dir_content in os.walk(directory):
-    dir_name = dir_content[0]
-    print(f'Папка {os.path.join(abs_path, dir_name[2:])}')
-    for f in [f_ for f_ in os.listdir() if os.path.isfile(f_)]:
-        print('   ', f.title(), f.path.getmtime())
-
+chdir(directory)
+dir_spec = getcwd()
+print(dir_spec)
+for root, dirs, files in walk(directory):
+    print (root)
+    for f in files:
+        f_path = path.join(root, f)
+        print(f'   Файл {f_path}, время '
+                  f'{strftime("%d.%m.%Y %H:%M", localtime(path.getmtime(f_path)))}'
+                  f', размер {path.getsize(f_path)}, родительская директория {path.dirname(f_path)}')
 
 
